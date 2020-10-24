@@ -1,0 +1,440 @@
+<!doctype html>
+<html>
+
+<head>
+    <bluefishv><!--hello world--></bluefishv>
+    <meta charset="utf-8">
+    <title>Skin</title>
+<style>
+    html,
+    body {
+        height: 100%;
+        width: 100%;
+        perspective: 700px;
+    }
+
+    * {
+        margin: 0
+    }
+
+    div,
+    b,
+    i {
+        position: absolute;
+        transform-style: preserve-3d
+    }
+
+    #city3D {
+        /*
+width:400px;
+height:400px;*/
+        background: #accdf9;
+        margin: auto;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        border: 10px solid #5ba8e1;
+        transform: rotateX(60deg) rotateZ(-60deg) rotateY(-20deg);
+
+    }
+
+    #city3D b {
+        height: 100%;
+        background-color: rgba(176, 208, 223, 0.9);
+        transform: rotateX(90deg);
+        transform-origin: 0 0;
+    }
+
+    #city3D b>b {
+        background-color: rgba(128, 174, 197, 0.9);
+        transform: rotateY(90deg);
+    }
+
+    #city3D b>b>b {
+        background-color: rgba(176, 208, 223, 0.9);
+        transform: rotateY(90deg);
+        transform-origin: 100% 0;
+        right: 0;
+    }
+
+    #city3D b>b>b>b {
+        background-color: rgba(128, 174, 197, 0.9);
+        transform: rotateY(90deg);
+        transform-origin: 0 100%;
+        left: 0;
+    }
+
+    #city3D b>b>b>b>i {
+        background-color: rgba(176, 208, 223, 0.9);
+        transform: rotateX(-90deg);
+        transform-origin: 0 100%;
+        bottom: 1px;
+    }
+
+    #city3D b>b>b>b>i>i {
+        background-color: rgba(176, 208, 223, 0.9);
+        transform: rotateX(-90deg);
+        transform-origin: 0 0;
+        bottom: 1px;
+    }
+
+    #city3D div.a b {
+        background-image: url("images/a.jpg");
+        /*transform-origin: top 0 ,left 0;*/
+        color: #b2f3a5;
+    }
+
+    .button {
+        border-radius: 10px;
+        position: relative;
+        background-color: #97ebee;
+        border: none;
+        font-size: 18px;
+        color: #FFFFFF;
+        padding: 20px;
+        width: 150px;
+        text-align: center;
+        -webkit-transition-duration: 0.4s;
+        /* Safari */
+        transition-duration: 0.4s;
+        text-decoration: none;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    #MoveHead {
+        border-radius: 5px;
+        background-color: #daf851;
+        /* Green */
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        -webkit-transition-duration: 0.4s;
+        /* Safari */
+        transition-duration: 0.4s;
+        cursor: pointer;
+        background-color: white;
+        color: rgb(234, 247, 165);
+        border: 2px solid #f5cd5d;
+    }
+
+    #MoveHead:hover {
+        background-color: #e5fa87;
+        color: white;
+    }
+
+    #MoveArea {
+        border-radius: 5px;
+        background-color: #82fd77;
+        /* Green */
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        -webkit-transition-duration: 0.4s;
+        /* Safari */
+        transition-duration: 0.4s;
+        cursor: pointer;
+        background-color: white;
+        color: rgb(195, 247, 165);
+        border: 2px solid #5df583;
+    }
+
+    #MoveArea:hover {
+        background-color: #b5f3a6;
+        color: white;
+    }
+
+    .button:after {
+        content: "";
+        background: #90e8ee;
+        display: block;
+        position: absolute;
+        padding-top: 300%;
+        padding-left: 350%;
+        margin-left: -20px !important;
+        margin-top: -120%;
+        opacity: 0;
+        transition: all 0.8s
+    }
+
+    .button:active:after {
+        padding: 0;
+        margin: 0;
+        opacity: 1;
+        transition: 0s
+    }
+</style>
+</head>
+<body>
+    <h1>
+        <font size="6" color="#5ba8e1">View</font>
+    </h1>
+    <p>
+        <font color="#7bc0e9" id="x">&#160;X轴</font>
+    </p>
+    <button onclick="AddRotateX()" class="button">rotateX +5</button>
+    <button onclick="RemoveRotateX()" class="button">rotateX -5</button>
+    <p>
+        <font color="#7bd3e9" id="y">&#160;Y轴</font>
+    </p>
+    <button onclick="AddRotateY()" class="button" style="background-color: #7bd3e9;">rotateY +5</button>
+    <button onclick="RemoveRotateY()" class="button" style="background-color: #7bd3e9;">rotateY -5</button>
+    <p>
+        <font color="#7bd3e9" id="z">&#160;Z轴</font>
+    </p>
+    <button onclick="AddRotateZ()" class="button" style="background-color: #7babe9;">rotateZ +5</button>
+    <button onclick="RemoveRotateZ()" class="button" style="background-color: #7babe9;">rotateZ -5</button>
+    <h1>
+        <font size="6" color="#5be1cb">Settings</font>
+    </h1>
+    <button onclick="MoveHead()" id="MoveHead">
+        <font color="#dde96e">head:stop</font>
+    </button>
+    <button onclick="MoveArea()" id="MoveArea">
+        <font color="#b2f3a5">area:stop</font>
+    </button>
+    <h1>
+        <font size="8">Skin(3D)</font>
+    </h1>
+    <div id="city3D" style="width:500px;height:500px">
+    </div>
+    <script>
+        var rotateX = 60;
+        var rotateZ = -60;
+        var rotateY = -20;
+        var SteveHeadR = 0;
+        var SteveHeadMoveBoolean = false;
+        var interval;
+        var AreaMoveBoolean = false;
+        var intervalArea;
+        var c3d = document.getElementById("city3D");
+        function CreateArea() {
+
+        }
+        function CreateCube(get, height, top, left, name, w, h) {
+            //var c3d = document.getElementById("city3D");
+            var area = document.createElement("div");
+            area.id = name;
+            //area.style.width="500px";
+            area.style.height = height + "px";
+            area.style.top = top + "px";
+            area.style.left = left + "px";
+            //area.id = "area";
+            //area.innerHTML = "2333";
+            get.appendChild(area);
+
+            //var div = document.getElementById("area");
+            var b1 = document.createElement("b");
+            b1.style.width = w + "px";
+            //b1.innerHTML = "5555";
+            area.appendChild(b1);
+
+            var b2 = document.createElement("b");
+            b2.style.width = h + "px";
+            b1.appendChild(b2);
+
+            var b3 = document.createElement("b");
+            b3.style.width = w + "px";
+            b2.appendChild(b3);
+
+            var b4 = document.createElement("b");
+            b4.style.width = h + "px";
+            b3.appendChild(b4);
+
+            var i = document.createElement("i");
+            i.style.width = h + "px";
+            i.style.height = w + "px";
+            b4.appendChild(i);
+        }
+        function setAreaSize(h, w) {
+            var city3D = document.getElementById("city3D");
+            city3D.style.height = h + "px";
+            city3D.style.width = w + "px";
+
+        }
+        function AddRotateX() {
+            rotateX += 5;
+            c3d.style.transform = "rotateX(" + rotateX + "deg) rotateZ(" + rotateZ + "deg) rotateY(" + rotateY + "deg)";
+        }
+        function RemoveRotateX() {
+            rotateX -= 5;
+            c3d.style.transform = "rotateX(" + rotateX + "deg) rotateZ(" + rotateZ + "deg) rotateY(" + rotateY + "deg)";
+        }
+        function AddRotateY() {
+            rotateY += 5;
+            c3d.style.transform = "rotateX(" + rotateX + "deg) rotateZ(" + rotateZ + "deg) rotateY(" + rotateY + "deg)";
+        }
+        function RemoveRotateY() {
+            rotateY -= 5;
+            c3d.style.transform = "rotateX(" + rotateX + "deg) rotateZ(" + rotateZ + "deg) rotateY(" + rotateY + "deg)";
+        }
+        function AddRotateZ() {
+            rotateZ += 5;
+            c3d.style.transform = "rotateX(" + rotateX + "deg) rotateZ(" + rotateZ + "deg) rotateY(" + rotateY + "deg)";
+        }
+        function RemoveRotateZ() {
+            rotateZ -= 5;
+            c3d.style.transform = "rotateX(" + rotateX + "deg) rotateZ(" + rotateZ + "deg) rotateY(" + rotateY + "deg)";
+        }
+        //new CreateArea();
+        function SummonSteve() {
+            var divs = document.getElementsByTagName('div');
+            //var legLeft=divs[2].getElementsByTagName('b')[0];
+            CreateCube(divs[2].getElementsByTagName('i')[0], 120, 0, 0, "SteveBody", 40, 80);
+            CreateCube(divs[2].getElementsByTagName('i')[1], 80, 0, 0, "SteveHead", 80, 80);
+            var head1 = document.getElementById('SteveHead');
+            var head1b = head1.getElementsByTagName('b')[0];
+            head1b.style.top = "0px";
+            head1b.style.left = "-40px";
+            head1.style.top = '-20px';
+            head1.style.left = "40px";
+            var SteveBody = document.getElementById('SteveBody').getElementsByTagName('b')[0];
+            var SteveBody2=document.getElementById('SteveBody').getElementsByTagName('b')[2];
+
+            CreateCube(SteveBody,40,0,0,"arm0",40,120);
+            CreateCube(SteveBody2,40,0,0,"arm1",40,120);
+            //head1.style.transformOrigin="center top -1px";
+            //legLeft.style.backgroundColor="#000";
+            //legLeft.style.transformOrigin="top 150px";
+            //legLeft.style.transform="rotateX(30deg)";
+            //console.log(divs);
+            //console.log(legLeft);
+        }
+
+        function MoveHead() {
+            var SteveHeadMove = document.getElementById('MoveHead');
+            if (SteveHeadMoveBoolean == false) {
+                SteveHeadMoveBoolean = true;
+                SteveHeadMove.innerHTML = "head:rotaing"
+                interval = window.setInterval(change, 100);
+            } else {
+
+                SteveHeadMoveBoolean = false;
+                SteveHeadMove.innerHTML = "head:stop"
+                window.clearInterval(interval);
+            }
+            //var divs=document.getElementsByTagName('div');
+            //var legLeft=divs[2].getElementsByTagName('b')[0];
+            //legLeft.style.transform="rotateZ("+rx+"deg)";
+        }
+        function MoveArea() {
+            var AreaMove = document.getElementById('MoveArea');
+            if (AreaMoveBoolean == false) {
+                AreaMoveBoolean = true;
+                AreaMove.innerHTML = "area:rotaing"
+                intervalArea = window.setInterval(changeArea, 100);
+            } else {
+                AreaMoveBoolean = false;
+                AreaMove.innerHTML = "area:stop"
+                window.clearInterval(intervalArea);
+            }
+            //var divs=document.getElementsByTagName('div');
+            //var legLeft=divs[2].getElementsByTagName('b')[0];
+            //legLeft.style.transform="rotateZ("+rx+"deg)";
+        }
+
+        function changeArea() {
+            rotateX += 1;
+            rotateY += 1;
+            rotateZ += 2;
+            c3d.style.transform = "rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg) rotateZ(" + rotateZ + "deg)";
+        }
+        function change() {
+            SteveHeadR += 5;
+            var SteveHead = document.getElementById('SteveHead');
+            SteveHead.style.transform = 'rotateZ(' + SteveHeadR + 'deg)';
+        }
+        function changeBackgroundPicture(){
+            var SHead=document.getElementById('SteveHead');
+            var SBody=document.getElementById('SteveBody');
+            var SArm0=document.getElementById('arm0');
+            var SArm1=document.getElementById('arm1');
+            var Sleg0=document.getElementById('leg');
+            var Sleg1=document.getElementById('leg2');
+            var SHeadg=SHead.getElementsByTagName('b');
+            var SHeadi=SHead.getElementsByTagName('i');
+            SHeadi[0].style.backgroundImage="url(./images/head4.jpg)";
+            SHeadi[0].style.backgroundSize="100% 100%";
+            SHeadg[0].style.backgroundImage="url(./images/head0.png)";
+            SHeadg[0].style.backgroundSize="100% 100%";
+            SHeadg[1].style.backgroundImage="url(./images/head2.png)";
+            SHeadg[1].style.backgroundSize="100% 100%";
+            SHeadg[2].style.backgroundImage="url(./images/head1.png)";
+            SHeadg[2].style.backgroundSize="100% 100%";
+            SHeadg[3].style.backgroundImage="url(./images/head3.png)";
+            SHeadg[3].style.backgroundSize="100% 100%";
+            var SBodyg=SBody.getElementsByTagName('b');
+            SBodyg[1].style.backgroundImage="url(./images/body0.png)";
+            SBodyg[1].style.backgroundSize="100% 100%";
+            SBodyg[3].style.backgroundImage="url(./images/body1.png)";
+            SBodyg[3].style.backgroundSize="100% 100%";
+            var SArm0g=SArm0.getElementsByTagName('b');
+            SArm0g[1].style.backgroundImage="url(./images/arm0.png)";
+            SArm0g[1].style.backgroundSize="100% 100%";
+            SArm0g[3].style.backgroundImage="url(./images/arm02.png)";
+            SArm0g[3].style.backgroundSize="100% 100%";
+            SArm0g[2].style.backgroundImage="url(./images/arm6.jpg)";
+            SArm0g[2].style.backgroundSize="100% 100%";
+            SArm0g[0].style.backgroundImage="url(./images/arm7.jpg)";
+            SArm0g[0].style.backgroundSize="100% 100%";
+            var SArm0i=SArm0.getElementsByTagName('i');
+            SArm0i[0].style.backgroundImage="url(./images/arm1.png)";
+            SArm0i[0].style.backgroundSize="100% 100%";
+            var SArm1g=SArm1.getElementsByTagName('b');
+            SArm1g[1].style.backgroundImage="url(./images/arm3.png)";
+            SArm1g[1].style.backgroundSize="100% 100%";
+            SArm1g[3].style.backgroundImage="url(./images/arm5.png)";
+            SArm1g[3].style.backgroundSize="100% 100%";
+            SArm1g[2].style.backgroundImage="url(./images/arm6.jpg)";
+            SArm1g[2].style.backgroundSize="100% 100%";
+            SArm1g[0].style.backgroundImage="url(./images/arm7.jpg)";
+            SArm1g[0].style.backgroundSize="100% 100%";
+            var SArm1i=SArm1.getElementsByTagName('i');
+            SArm1i[0].style.backgroundImage="url(./images/arm4.png)";
+            SArm1i[0].style.backgroundSize="100% 100%";
+            var Sleg0g=Sleg0.getElementsByTagName('b');
+            Sleg0g[0].style.backgroundImage="url(./images/leg2.png)";
+            Sleg0g[0].style.backgroundSize="100% 100%";
+            Sleg0g[2].style.backgroundImage="url(./images/leg0.png)";
+            Sleg0g[2].style.backgroundSize="100% 100%";
+            Sleg0g[3].style.backgroundImage="url(./images/leg2.png)";
+            Sleg0g[3].style.backgroundSize="100% 100%";
+            var Sleg1g=Sleg1.getElementsByTagName('b');
+            Sleg1g[0].style.backgroundImage="url(./images/leg3.png)";
+            Sleg1g[0].style.backgroundSize="100% 100%";
+            Sleg1g[1].style.backgroundImage="url(./images/leg3.png)";
+            Sleg1g[1].style.backgroundSize="100% 100%";
+            Sleg1g[2].style.backgroundImage="url(./images/leg0.png)";
+            Sleg1g[2].style.backgroundSize="100% 100%";
+
+            //console.log(SHead.getElementsByTagName('b')[0]);
+
+        }
+        function renovate(){
+            var x=document.getElementById('x');
+            var y=document.getElementById('y');
+            var z=document.getElementById('z');
+            x.innerHTML="&#160;X轴("+rotateX+"deg)";
+            y.innerHTML="&#160;Y轴("+rotateY+"deg)";
+            z.innerHTML="&#160;Z轴("+rotateZ+"deg)";
+        }
+        new CreateCube(c3d, 120, 200, 200, "leg", 40, 40);
+        new CreateCube(c3d, 120, 200, 159, "leg2", 40, 40);
+        new setAreaSize(400, 400);
+        new SummonSteve();
+        new changeBackgroundPicture();
+        window.setInterval(renovate,200);
+    </script>
+
+</html>
