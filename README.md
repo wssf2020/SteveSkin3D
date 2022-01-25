@@ -1,3 +1,3 @@
 # SteveSkin3D
-<h1>这是一个在网页中可以预览的我的世界人物模型
-<h1>by BluefishV 
+## Minecraft Skin in Web
+## https://wssf2020.github.io/SteveSkin3D/Index 
